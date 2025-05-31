@@ -13,7 +13,7 @@ class UserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
-        return self.user
+        return user
     
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", False)

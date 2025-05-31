@@ -1,6 +1,10 @@
+import os
+import uuid
+
 from django.db import models
 from user.models import User
 from django.core.exceptions import ValidationError
+from django.utils.text import slugify
 
 
 class ShowTheme(models.Model):
@@ -13,6 +17,7 @@ class ShowTheme(models.Model):
 class AstronomyShow(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
+    image = models.ImageField(upload_to="uploads/shows/", null=True, blank=True)
 
     show_themes = models.ManyToManyField(
         ShowTheme,
@@ -35,6 +40,13 @@ class PlanetariumDome(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+def show_image_file_path(instance, filename):
+    _, extension = os.path.splitext(filename)
+    filename = f"{slugify(instance.title)}-{uuid.uuid4()}{extension}"
+
+    return os.path.join("uploads/shows/", filename)
 
 
 class ShowSession(models.Model):
@@ -49,6 +61,7 @@ class ShowSession(models.Model):
         related_name="sessions"
     )
     show_time = models.DateTimeField()
+    image = models.ImageField(null=True, upload_to=show_image_file_path)
 
     def __str__(self):
         return f"{self.astronomy_show} in {self.planetarium_dome} at {self.show_time}"
