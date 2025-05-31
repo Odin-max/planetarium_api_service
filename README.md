@@ -1,29 +1,30 @@
+
 # 🌌 Planetarium API
 
-Проєкт — API для планетарію з можливістю бронювання квитків, перегляду шоу, тем, куполу тощо. Реалізовано на Django + Django REST Framework.
+The project is a REST API for a planetarium system, supporting show listings, ticket reservations, dome and theme management, and user authentication. Built with Django and Django REST Framework.
 
 ---
 
-## 📦 Вміст
+## 📦 Contents
 
-- [Встановлення локально](#-встановлення-локально)
-- [Запуск у Docker](#-запуск-у-docker)
-- [Аутентифікація](#-аутентифікація)
-- [Доступні ендпоїнти](#-доступні-ендпоїнти)
-- [Документація Swagger / Redoc](#-документація)
+- [Local Installation](#-local-installation)
+- [Docker Usage](#-docker-usage)
+- [Authentication](#-authentication)
+- [Available Endpoints](#-available-endpoints)
+- [Swagger / Redoc Docs](#-documentation)
 
 ---
 
-## 🔧 Встановлення локально
+## 🔧 Local Installation
 
-1. Клонувати репозиторій:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/Odin-max/planetarium_api_service.git
 cd planetarium_api_service
 ```
 
-2. Створити `.env` файл:
+2. Create a `.env` file:
 
 ```env
 SQL_ENGINE=django.db.backends.postgresql
@@ -37,19 +38,19 @@ SECRET_KEY=your-secret-key
 ALLOWED_HOSTS=127.0.0.1,localhost
 ```
 
-3. Встановити залежності:
+3. Install dependencies:
 
 ```bash
 poetry install
 ```
 
-4. Виконати міграції:
+4. Apply migrations:
 
 ```bash
 poetry run python manage.py migrate
 ```
 
-5. Запустити сервер:
+5. Run the server:
 
 ```bash
 poetry run python manage.py runserver
@@ -57,25 +58,26 @@ poetry run python manage.py runserver
 
 ---
 
-## 🐳 Запуск у Docker
+## 🐳 Docker Usage
 
-### ⚙️ Збірка та запуск
+### ⚙️ Build & Run
 
 ```bash
 docker-compose up --build
 ```
 
-> Вперше це може зайняти кілька хвилин.
+> Initial setup might take a few minutes.
 
+---
 
-## 🔐 Аутентифікація
+## 🔐 Authentication
 
-JWT токен на основі `djangorestframework-simplejwt`.
+JWT-based authentication using `djangorestframework-simplejwt`.
 
-### Реєстрація
+### Register
 `POST /api/user/register/`
 
-### Отримати токен
+### Obtain token
 `POST /api/user/token/`  
 ```json
 {
@@ -84,20 +86,20 @@ JWT токен на основі `djangorestframework-simplejwt`.
 }
 ```
 
-### Отримати оновлення токена
+### Refresh token
 `POST /api/user/token/refresh/`
 
-### Перевірка токена
+### Verify token
 `POST /api/user/token/verify/`
 
-### Отримати дані користувача
+### Get user info
 `GET /api/user/me/`
 
-> ⚠️ Не забудь додати `Authorization: Bearer <your_token>` у заголовок.
+> ⚠️ Add header: `Authorization: Bearer <your_token>`
 
 ---
 
-## 🧪 Тести
+## 🧪 Tests
 
 ```bash
 poetry run python manage.py test
@@ -105,48 +107,48 @@ poetry run python manage.py test
 
 ---
 
-## 🌐 Доступні ендпоїнти
+## 🌐 Available Endpoints
 
-Базовий префікс: `http://localhost:8000/api/planetarium/`
+Base prefix: `http://localhost:8000/api/planetarium/`
 
-| Ресурс       | Метод | Endpoint                       | Опис                                |
-|--------------|-------|--------------------------------|-------------------------------------|
-| Show Themes  | GET   | `/themes/`                     | Перелік тем                         |
-|              | POST  | `/themes/`                     | Створити тему                       |
-|              | GET   | `/themes/{id}/`                | Деталі теми                         |
-|              | PUT   | `/themes/{id}/`                | Оновити тему                        |
-|              | DELETE| `/themes/{id}/`                | Видалити тему                       |
-| Shows        | GET   | `/shows/`                      | Перелік шоу                         |
-|              | POST  | `/shows/`                      | Створити шоу                        |
-|              | GET   | `/shows/{id}/`                 | Деталі шоу                          |
-|              | PUT   | `/shows/{id}/`                 | Оновити шоу                         |
-|              | DELETE| `/shows/{id}/`                 | Видалити шоу                        |
-|              | POST  | `/shows/{id}/upload-image/`    | Завантажити зображення для шоу     |
-| Domes        | GET   | `/domes/`                      | Перелік куполів                     |
-| Sessions     | GET   | `/sessions/`                   | Перелік сеансів                     |
-| Reservations | GET   | `/reservations/`               | Перелік бронювань                   |
-|              | POST  | `/reservations/`               | Створити бронювання з квитками     |
+| Resource      | Method | Endpoint                        | Description                          |
+|---------------|--------|----------------------------------|--------------------------------------|
+| Show Themes   | GET    | `/themes/`                      | List themes                          |
+|               | POST   | `/themes/`                      | Create a theme                       |
+|               | GET    | `/themes/{id}/`                 | Theme details                        |
+|               | PUT    | `/themes/{id}/`                 | Update a theme                       |
+|               | DELETE | `/themes/{id}/`                 | Delete a theme                       |
+| Shows         | GET    | `/shows/`                       | List shows                           |
+|               | POST   | `/shows/`                       | Create a show                        |
+|               | GET    | `/shows/{id}/`                  | Show details                         |
+|               | PUT    | `/shows/{id}/`                  | Update a show                        |
+|               | DELETE | `/shows/{id}/`                  | Delete a show                        |
+|               | POST   | `/shows/{id}/upload-image/`     | Upload image for show               |
+| Domes         | GET    | `/domes/`                       | List domes                           |
+| Sessions      | GET    | `/sessions/`                    | List sessions                        |
+| Reservations  | GET    | `/reservations/`                | List reservations                    |
+|               | POST   | `/reservations/`                | Create a reservation with tickets   |
 
 ---
 
-## 👤 Ендпоїнти користувача (`/api/user/`)
+## 👤 User Endpoints (`/api/user/`)
 
-| Метод | Endpoint              | Опис                                |
-|--------|------------------------|-------------------------------------|
-| POST   | `/register/`          | Зареєструвати нового користувача    |
-| POST   | `/token/`             | Отримати JWT токен                  |
-| POST   | `/token/refresh/`     | Оновити access токен                |
-| POST   | `/token/verify/`      | Перевірити валідність токена       |
-| GET    | `/me/`                | Отримати інформацію про користувача (авторизовано) |
-| PUT    | `/me/`                | Повністю оновити користувача        |
-| PATCH  | `/me/`                | Частково оновити користувача        |
+| Method | Endpoint              | Description                              |
+|--------|------------------------|------------------------------------------|
+| POST   | `/register/`          | Register a new user                      |
+| POST   | `/token/`             | Obtain JWT token                         |
+| POST   | `/token/refresh/`     | Refresh access token                     |
+| POST   | `/token/verify/`      | Verify token validity                    |
+| GET    | `/me/`                | Get user info (requires auth)            |
+| PUT    | `/me/`                | Fully update user                        |
+| PATCH  | `/me/`                | Partially update user                    |
 
-> 🛡️ Усі ендпоїнти, окрім `/register/` та `/token/`, потребують авторизації:  
+> 🛡️ All except `/register/` and `/token/` require authorization:  
 `Authorization: Bearer <your_token>`
 
-## 📘 Документація
+---
+
+## 📘 Documentation
 
 - Swagger UI: [http://localhost:8000/api/doc/swagger/](http://localhost:8000/api/doc/swagger/)
 - Redoc: [http://localhost:8000/api/doc/redoc/](http://localhost:8000/api/doc/redoc/)
-
----
